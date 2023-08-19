@@ -16,6 +16,9 @@ TEMPLATE = """
     <html>
         <body>
             <center>
+            Last reading<br>
+            <big>{{last_temperature[1]}}&deg;C</big><br>
+            <small>{{last_temperature[0]}}</small><br>
             <img src=data:image/png;base64,{{plot}}>
             </center>
         </body>
@@ -41,7 +44,7 @@ async def chart():
     plt.savefig(figfile, format="png")
     figfile.seek(0)
     figdata = base64.b64encode(figfile.getvalue())
-    return await render_template_string(TEMPLATE, plot=figdata.decode())
+    return await render_template_string(TEMPLATE, plot=figdata.decode(), last_temperature=temperature_records[-1])
 
 
 def main():
