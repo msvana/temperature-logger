@@ -6,7 +6,7 @@ import serial
 
 parser = argparse.ArgumentParser(
     prog="Temperature Logger",
-    description="Logs temperature reported by Arduino through a serial port and stores the records in an SQLite database",
+    description="Reads temperature from Arduino through a serial port and stores it in an SQLite database",
 )
 
 parser.add_argument("serial", help="Path to the device representing the serial port e.g. /dev/ttyACM0", type=str)
@@ -24,7 +24,7 @@ def main():
             temperature REAL NOT NULL)
         """
     )
-    arduino_output = serial.Serial(args.serial, 9600, timeout=11)
+    arduino_output = serial.Serial(args.serial, 9600, timeout=60)
 
     while True:
         temperature_line = arduino_output.readline().decode()
